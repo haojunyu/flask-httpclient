@@ -1,17 +1,14 @@
 """
-@File    :   base.py
+@File    :   flask_httpclient.py
 @Time    :   2021/03/14 3:47 下午
 @Author  :   hjy
 @Version :   1.0
-@Contact :   haojunyu@datagrand.com
+@Contact :   haojunyu2012@gmail.com
 @License :   (C)Copyright 2020-
 @Desc    :   flask扩展：http客户端
 """
 
 import requests
-from functools import wraps
-from reprlib import repr
-from time import sleep
 
 
 class HTTPError(Exception):

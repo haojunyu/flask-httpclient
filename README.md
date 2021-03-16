@@ -1,55 +1,37 @@
-flask_http帮助文档
+# flask_httpclient帮助文档
 
-HTTP client extension for Flask.
-===========================================
+## 简介
 
-对requests库的包装，在flask配置文件中配置base_url, HttpBasicAuth, verify等。
-
-
-安装
-------
-
-.. code-block:: sh
-
-    pip install flask-http-client
-
-使用
-------
+对 requests 库进行包装，需要在 Flask 配置文件或对象创建时配置以下参数：
+* 请求URL： {config_prefix}_URL/base_url
+* 请求超时：{config_prefix}_TIMEOUT/timeout
+* 实例前缀：config_prefix
+* 重试次数：retry
 
 
-First init::
+## 安装
 
-    from flask_http_client import HTTPClient
-    http_client = HTTPClient()
-    http_client.init_app(app)
 
-API
-----
+```python
+    pip install flask-httpclient
+```
 
-和requests的API一致，需要注意的是 url = base_url + path，所以base_url和path需要自己做好处理。
+## 使用
 
-.. code-block::
+```python
+    from flask_httpclient import HTTPClient
 
-    params = {}
-    resp = http_client.request('GET', '/users/', params=params)
+    http_client = HTTPClient(base_url='xxx',timeout=1, config_prefix='OPEN_API')
+
+    # 创建 Flask 应用时集成扩展
+    def create_app():
+        app = Flask(__name__)
+        http_client.init_app(app)
+    
+    # app 中使用
     resp = http_client.get('/users', params=params)
+```
 
+## License
 
-配置项
-------
-
-可以在构造方法修改配置前缀，默认为 HTTP_CLIENT
-
-.. code-block:: py
-
-    http_client = AuthClient(config_prefix='YOUR_CONFIG_PREFIX')
-
-
-=====================   ================================================
-配置项                  说明
-=====================   ================================================
-HTTP_CLIENT_BASE_URL     api的url_prefix
-HTTP_CLIENT_USERNAME     BasicAuth的username
-HTTP_CLIENT_PASSWORD     BasicAuth的password
-HTTP_CLIENT_VERIFY       requests的verfy配置，可以是自定义证书的路径
-=====================   ================================================
+[MIT](https://github.com/pythonml/douyin_image/blob/master/LICENSE)

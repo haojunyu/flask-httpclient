@@ -11,7 +11,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name='Flask-HTTPClient',
-    version='1.0',
+    version='1.1',
     url='https://github.com/haojunyu/flask-httpclient',
     license='MIT',
     author='haojunyu',

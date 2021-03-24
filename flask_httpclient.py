@@ -9,6 +9,8 @@
 """
 
 import requests
+from reprlib import repr
+from flask import current_app
 
 
 class HTTPError(Exception):
@@ -39,8 +41,6 @@ class HTTPClient(object):
             self.session.mount('https://', request_retry)
             self.session.mount('http://', request_retry)
 
-        self.app = app
-
         """
         if not hasattr(app, "extensions"):
             app.extensions = {}
@@ -51,7 +51,7 @@ class HTTPClient(object):
 
     def _request_wrapper(self, method, api, **kwargs):
         url = self.base_url + api
-        self.app.logger.info(
+        current_app.logger.info(
             f"sending {method} request to {self.url + api} ...  kwargs is {repr(kwargs)}")
 
         res = self.session.request(method, self.url + api, **kwargs)
@@ -60,12 +60,12 @@ class HTTPClient(object):
                             f"response is {res.content}")
         # 返回有可能不是json格式
         if 'text/html' in res.headers['Content-Type']:
-            self.app.logger.info(f"sending {method} request to {self.url + api} over ... response is "
-                                 f"{repr(res.content)}")
+            current_app.logger.info(f"sending {method} request to {self.url + api} over ... response is "
+                                    f"{repr(res.content)}")
             return res.text
         else:
-            self.app.logger.info(f"sending {method} request to {self.url + api} over ... response is "
-                                 f"{repr(res.json())}")
+            current_app.logger.info(f"sending {method} request to {self.url + api} over ... response is "
+                                    f"{repr(res.json())}")
             return res.json() or dict()
 
         return self.session.request(method, url, **kwargs)
@@ -96,4 +96,4 @@ class HTTPClient(object):
             if hasattr(self, "session"):
                 self.session.close()
         except Exception as e:
-            self.app.logger.exception(e)
+            current_app.logger.exception(e)

@@ -13,6 +13,7 @@ twine = "*"
 
 [packages]
 requests = "*"
+flask = "*"
 
 [requires]
 python_version = "3"
